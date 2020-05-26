@@ -1,6 +1,6 @@
 {
   "name": "lighthouse-build-compare",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "comparison tool that generates performance reports based on an arbitrary number of lighthouse audits against different builds",
   "main": "bin/index.ts",
   "repository": "git@github.com:rpivo/lighthouse-build-compare.git",
@@ -8,5 +8,10 @@
   "license": "MIT",
   "bin": {
     "lbc": "./bin/index.ts"
+  },
+  "dependencies": {
+    "@types/node": "^14.0.5",
+    "@types/yargs": "^15.0.5",
+    "yargs": "^15.3.1"
   }
 }
