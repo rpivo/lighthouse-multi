@@ -1,0 +1,12 @@
+{
+  "name": "lighthouse-build-compare",
+  "version": "0.0.3",
+  "description": "comparison tool that generates performance reports based on an arbitrary number of lighthouse audits against different builds",
+  "main": "bin/index.ts",
+  "repository": "git@github.com:rpivo/lighthouse-build-compare.git",
+  "author": "Ryan Pivovar <ryanpivovar@gmail.com>",
+  "license": "MIT",
+  "bin": {
+    "lbc": "./bin/index.ts"
+  }
+}
