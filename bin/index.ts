@@ -1,58 +1,58 @@
 #! /usr/bin/env node
+const chromeLauncher = require('chrome-launcher');
+const fs = require('fs');
+const lighthouse = require('lighthouse');
 const yargs = require('yargs');
+
+type Chrome = {
+  kill: () => Promise<{}>;
+  port?: number;
+};
+
+type Options = {
+  chromeFlags?: string;
+  port?: number;
+};
+
+type Results = {
+  lhr: {};
+};
 
 const options = yargs
   .usage(
     'Usage: -d <depth> -e <endpoint1> -f <endpoint2> -g <endpoint3> -h <endpoint4> -i <endpoint5>'
   )
+  .option('e', {
+    alias: 'endpoints',
+    describe: 'comma-separated list of endpoints',
+    type: 'string',
+    demandOption: true,
+  })
   .option('d', {
     alias: 'depth',
     describe: 'number of lighthouse audits per endpoint',
     type: 'number',
   })
-  .option('e', {
-    alias: 'endpoint1',
-    describe: 'first endpoint to be tested',
-    type: 'string',
-    demandOption: true,
-  })
-  .option('f', {
-    alias: 'endpoint2',
-    describe: 'second endpoint to be tested',
-    type: 'string',
-  })
-  .option('g', {
-    alias: 'endpoint3',
-    describe: 'third endpoint to be tested',
-    type: 'string',
-  })
-  .option('h', {
-    alias: 'endpoint4',
-    describe: 'fourth endpoint to be tested',
-    type: 'string',
-  })
-  .option('i', {
-    alias: 'endpoint5',
-    describe: 'fifth endpoint to be tested',
-    type: 'string',
-  })
   .argv;
 
 const {
+  endpoints,
   depth = 1,
-  endpoint1 = '',
-  endpoint2 = '',
-  endpoint3 = '',
-  endpoint4 = '',
-  endpoint5 = '',
 } = options;
 
-console.log('options', {
-  depth,
-  endpoint1,
-  endpoint2,
-  endpoint3,
-  endpoint4,
-  endpoint5,
-  directory: process.cwd(),
-});
+const endpointArr = endpoints.split(',');
+
+const dir = './reports';
+if (!fs.existsSync(dir)) fs.mkdirSync(dir);
+
+const runLighthouse = (url: string, opts: Options, config = null) => {
+  return chromeLauncher.launch({ chromeFlags: opts.chromeFlags }).then((chrome: Chrome) => {
+    opts.port = chrome.port;
+    return lighthouse(url, opts, config).then((results: Results) => {
+      console.log(results);
+      return chrome.kill().then(() => results.lhr);
+    });
+  })
+};
+
+runLighthouse('http://example.com/', {}, null);
