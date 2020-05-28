@@ -1,8 +1,15 @@
 {
   "name": "lighthouse-compare",
   "version": "0.3.0",
-  "description": "lighthouse wrapper that runs an arbitrary number of audits against different endpoints",
-  "main": "bin/index.ts",
+  "description": "lighthouse wrapper that runs x number of audits against y number of endpoints",
+  "keywords": [
+    "build",
+    "javascript",
+    "lighthouse",
+    "performance",
+    "typescript"
+  ],
+  "main": "bin/index.js",
   "repository": "git@github.com:rpivo/lighthouse-compare.git",
   "author": "Ryan Pivovar <ryanpivovar@gmail.com>",
   "license": "MIT",
