@@ -14,14 +14,13 @@
   "author": "Ryan Pivovar <ryanpivovar@gmail.com>",
   "license": "MIT",
   "bin": {
-    "lighthouse-compare": "ts-node ./bin/index.ts"
+    "lighthouse-compare": "./bin/index.js"
   },
   "dependencies": {
     "@types/node": "^14.0.5",
     "@types/yargs": "^15.0.5",
     "chrome-launcher": "^0.13.2",
     "lighthouse": "^6.0.0",
-    "ts-node": "^8.10.1",
     "yargs": "^15.3.1"
   }
 }
