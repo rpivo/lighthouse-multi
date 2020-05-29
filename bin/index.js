@@ -24,26 +24,13 @@ const dir = './reports';
 if (!fs.existsSync(dir))
     fs.mkdirSync(dir);
 const runLighthouse = async (url, opts, config) => {
-    return chromeLauncher
-        .launch({ chromeFlags: opts.chromeFlags })
-        .then((chrome) => {
-        opts.port = chrome.port;
-        return lighthouse(url, opts, config)
-            .then((results) => {
-            chrome
-                .kill()
-                .then(() => {
-                const filename = `audit-${new Date().toLocaleString()}.json`
-                    .replace(/(\/|\s|:)/g, '-').replace(',', '');
-                fs.writeFile(`./reports/${filename}`, results.report, (err) => {
-                    if (err)
-                        throw err;
-                    console.log(`\n\x1b[32mAudit written to file\x1b[37m: ${filename}\n`);
-                });
-                return;
-            });
-        });
-    });
+    const chrome = await chromeLauncher.launch({ chromeFlags: opts.chromeFlags });
+    opts.port = chrome.port;
+    const results = await lighthouse(url, opts, config);
+    await chrome.kill();
+    const filename = `audit-${new Date().toLocaleString()}.json`
+        .replace(/(\/|\s|:)/g, '-').replace(',', '');
+    await fs.writeFileSync(`./reports/${filename}`, results.report);
 };
 const flags = {
     logLevel: 'info',
@@ -64,6 +51,8 @@ const runLighthousePerEndpoint = async (endpoints) => {
             console.log(`\n\x1b[32mPass ${index + 1} of endpoint finished\x1b[37m: ${endpoint}\n`);
         }
     }
-    console.log('finally!');
+    const files = await fs.readdirSync(dir);
+    for (const file of files)
+        console.log(file);
 };
 runLighthousePerEndpoint(endpoints);

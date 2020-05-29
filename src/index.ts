@@ -51,13 +51,12 @@ const runLighthouse = async (url: string, opts: Options, config: {}) => {
     .launch({ chromeFlags: opts.chromeFlags })
     .then((chrome: Chrome) => {
       opts.port = chrome.port;
-      return lighthouse(url, opts, config)
-        .then((results: Results) => {
-          chrome
-            .kill()
-            .then(() => {
-              const filename = `audit-${new Date().toLocaleString()}.json`
-              .replace(/(\/|\s|:)/g,'-').replace(',','');
+  const results = await lighthouse(url, opts, config);
+
+  await chrome.kill();
+
+  const filename = `audit-${new Date().toLocaleString()}.json`
+    .replace(/(\/|\s|:)/g,'-').replace(',','');
     
               fs.writeFile(`./reports/${filename}`, results.report, (err: Error) => {
                 if (err) throw err;
