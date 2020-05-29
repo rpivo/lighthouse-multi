@@ -47,25 +47,16 @@ const dir = './reports';
 if (!fs.existsSync(dir)) fs.mkdirSync(dir);
 
 const runLighthouse = async (url: string, opts: Options, config: {}) => {
-  return chromeLauncher
-    .launch({ chromeFlags: opts.chromeFlags })
-    .then((chrome: Chrome) => {
-      opts.port = chrome.port;
+  const chrome = await chromeLauncher.launch({ chromeFlags: opts.chromeFlags });
+
+  opts.port = chrome.port;
   const results = await lighthouse(url, opts, config);
 
   await chrome.kill();
 
   const filename = `audit-${new Date().toLocaleString()}.json`
     .replace(/(\/|\s|:)/g,'-').replace(',','');
-    
-              fs.writeFile(`./reports/${filename}`, results.report, (err: Error) => {
-                if (err) throw err;
-                console.log(`\n\x1b[32mAudit written to file\x1b[37m: ${filename}\n`);
-              });
-              return;
-            });
-      });
-  })
+  await fs.writeFileSync(`./reports/${filename}`, results.report);
 };
 
 const flags = {
