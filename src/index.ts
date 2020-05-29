@@ -81,7 +81,8 @@ const runLighthousePerEndpoint = async (endpoints: string) => {
       console.log(`\n\x1b[32mPass ${index + 1} of endpoint finished\x1b[37m: ${endpoint}\n`);
     }
   }
-  console.log('finally!');
+  const files = await fs.readdirSync(dir);
+  for (const file of files) console.log(file);
 };
 
 runLighthousePerEndpoint(endpoints);
