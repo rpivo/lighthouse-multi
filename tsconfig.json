@@ -5,6 +5,7 @@
     "baseUrl": "./src",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "lib": ["ESNext"],
     "module": "esnext",
     "moduleResolution": "node",
     "noImplicitAny": true,
@@ -16,6 +17,6 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "suppressImplicitAnyIndexErrors": true,
-    "target": "es5",
+    "target": "ESNext",
   }
 }
