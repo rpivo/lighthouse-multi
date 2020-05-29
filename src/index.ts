@@ -2,6 +2,7 @@
 const chromeLauncher = require('chrome-launcher');
 const fs = require('fs');
 const lighthouse = require('lighthouse');
+const log = require('lighthouse-logger');
 const yargs = require('yargs');
 
 type Chrome = {
@@ -11,11 +12,13 @@ type Chrome = {
 
 type Options = {
   chromeFlags?: string;
+  logLevel?: string;
   port?: number;
 };
 
 type Results = {
-  lhr: {};
+  lhr?: {};
+  report?: {};
 };
 
 const options = yargs
@@ -40,19 +43,55 @@ const {
   depth = 1,
 } = options;
 
-const endpointArr = endpoints.split(',');
-
 const dir = './reports';
 if (!fs.existsSync(dir)) fs.mkdirSync(dir);
 
-const runLighthouse = (url: string, opts: Options, config = null) => {
-  return chromeLauncher.launch({ chromeFlags: opts.chromeFlags }).then((chrome: Chrome) => {
-    opts.port = chrome.port;
-    return lighthouse(url, opts, config).then((results: Results) => {
-      console.log(results);
-      return chrome.kill().then(() => results.lhr);
-    });
+const runLighthouse = async (url: string, opts: Options, config: {}) => {
+  return chromeLauncher
+    .launch({ chromeFlags: opts.chromeFlags })
+    .then((chrome: Chrome) => {
+      opts.port = chrome.port;
+      return lighthouse(url, opts, config)
+        .then((results: Results) => {
+          chrome
+            .kill()
+            .then(() => {
+              const filename = `audit-${new Date().toLocaleString()}.json`
+              .replace(/(\/|\s|:)/g,'-').replace(',','');
+    
+              fs.writeFile(`./reports/${filename}`, results.report, (err: Error) => {
+                if (err) throw err;
+                console.log(`\n\x1b[32mAudit written to file\x1b[37m: ${filename}\n`);
+              });
+              return;
+            });
+      });
   })
 };
 
-runLighthouse('http://example.com/', {}, null);
+const flags = {
+  logLevel: 'info',
+};
+log.setLevel(flags.logLevel);
+
+const config = {
+  extends: 'lighthouse:default',
+  settings: {
+    emulatedFormFactor: 'desktop',
+    onlyCategories: ['performance'],
+  },
+};
+
+const runLighthousePerEndpoint = async (endpoints: string) => {
+  const endpointArr = endpoints.split(',');
+
+  for (let index = 0; index < depth; index++) {
+    for (const endpoint of endpointArr) {
+      await runLighthouse(endpoint, flags, config);
+      console.log(`\n\x1b[32mPass ${index + 1} of endpoint finished\x1b[37m: ${endpoint}\n`);
+    }
+  }
+  console.log('finally!');
+};
+
+runLighthousePerEndpoint(endpoints);
