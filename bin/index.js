@@ -64,19 +64,29 @@ const generateReport = async (names) => {
     const { diagnosticKeys, numericValueKeys } = lighthouseKeys;
     const files = await fs.readdirSync(dir);
     const metrics = {};
+    const getAverage = (arr) => arr.reduce((acc, curr) => acc + curr, 0) / arr.length;
     Object.keys(names).forEach(async (name) => {
         metrics[name] = {};
         for (const file of files) {
             if (file.includes(name))
                 names[name].push(file);
         }
-        console.log(name);
         for (const fileName of names[name]) {
             const contents = await JSON.parse(fs.readFileSync(`./reports/${fileName}`, 'utf8'));
-            console.log(contents.audits.diagnostics.details.items[0]);
-            console.log(diagnosticKeys);
-            console.log(metrics);
+            Object.keys(diagnosticKeys).forEach(metric => {
+                if (!metrics[name][metric])
+                    metrics[name][metric] = [];
+                metrics[name][metric].push(contents.audits.diagnostics.details.items[0][metric]);
+            });
+            Object.keys(numericValueKeys).forEach(metric => {
+                if (!metrics[name][metric])
+                    metrics[name][metric] = [];
+                metrics[name][metric].push(contents.audits[metric].numericValue);
+            });
         }
+        const report = {};
+        console.log(Object.values(diagnosticKeys));
+        console.log(Object.values(numericValueKeys));
     });
 };
 runLighthousePerEndpoint(endpoints);
