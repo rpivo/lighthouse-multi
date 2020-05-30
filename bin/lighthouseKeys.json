@@ -1,0 +1,38 @@
+{
+  "numericValueKeys": {
+    "first-contentful-paint": "First Contentful Paint",
+    "largest-contentful-paint": "Largest Contentful Paint",
+    "first-meaningful-paint": "First Meaningful Paint",
+    "speed-index": "Speed Index",
+    "estimated-input-latency": "Estimated Input Latency",
+    "total-blocking-time": "Total Blocking Time",
+    "max-potential-fid": "Max Potential First Input Delay",
+    "cumulative-layout-shift": "Cumulative Layout Shift",
+    "server-response-time": "Server Response Time",
+    "first-cpu-idle": "First CPU Idle",
+    "interactive": "Time to Interactive",
+    "redirects": "Redirect Delays",
+    "mainthread-work-breakdown": "Main-Thread Work Breakdown",
+    "bootup-time": "Bootup Time",
+    "network-rtt": "Network Round-Trip Time",
+    "network-server-latency": "Network Server Latency",
+    "dom-size": "DOM Size"
+  },
+  "diagnosticKeys": {
+    "numRequests": "Number of Requests",
+    "numScripts": "Number of Scripts",
+    "numStylesheets": "Number of Stylesheets",
+    "numFonts": "Number of Fonts",
+    "numTasks": "Number of Tasks",
+    "numTasksOver10ms": "Number of Tasks Over 10ms",
+    "numTasksOver25ms": "Number of Tasks Over 25ms",
+    "numTasksOver50ms": "Number of Tasks Over 50ms",
+    "numTasksOver100ms": "Number of Tasks Over 100ms",
+    "numTasksOver500ms": "Number of Tasks Over 500ms",
+    "maxRtt": "Max Round-Trip Time",
+    "maxServerLatency": "Max Server Latency",
+    "totalByteWeight": "Total Byte Weight",
+    "totalTaskTime": "Total Task Time",
+    "mainDocumentTransferSize": "Main Document Transfer Size"
+  }
+}
