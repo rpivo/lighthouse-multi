@@ -79,6 +79,8 @@ const runLighthousePerEndpoint = async (endpoints: string) => {
   const endpointArr = endpoints.split(',');
   const nameList = {};
 
+  console.log('\nInitializing...\n');
+
   for (let index = 0; index < depth; index++) {
     for (const endpoint of endpointArr) {
       const name = hyphenateString(endpoint);
