@@ -28,8 +28,8 @@ const runLighthouse = async (url, opts, config) => {
     opts.port = chrome.port;
     const results = await lighthouse(url, opts, config);
     await chrome.kill();
-    const filename = `audit-${new Date().toLocaleString()}.json`
-        .replace(/(\/|\s|:)/g, '-').replace(',', '');
+    const filename = `${url}-${new Date().toLocaleString()}.json`
+        .replace(/(\/|\s|:)/g, '-').replace(',', '').replace(/-{2,}/g, '-');
     await fs.writeFileSync(`./reports/${filename}`, results.report);
 };
 const flags = {

@@ -54,8 +54,8 @@ const runLighthouse = async (url: string, opts: Options, config: {}) => {
 
   await chrome.kill();
 
-  const filename = `audit-${new Date().toLocaleString()}.json`
-    .replace(/(\/|\s|:)/g,'-').replace(',','');
+  const filename = `${url}-${new Date().toLocaleString()}.json`
+    .replace(/(\/|\s|:)/g,'-').replace(',','').replace(/-{2,}/g, '-');
   await fs.writeFileSync(`./reports/${filename}`, results.report);
 };
 
@@ -78,6 +78,7 @@ const runLighthousePerEndpoint = async (endpoints: string) => {
   for (let index = 0; index < depth; index++) {
     for (const endpoint of endpointArr) {
       await runLighthouse(endpoint, flags, config);
+
       console.log(`\n\x1b[32mPass ${index + 1} of endpoint finished\x1b[37m: ${endpoint}\n`);
     }
   }
