@@ -2,12 +2,12 @@
 
 ### Installation
 
-Quickstart:
+Quickstart:<br />
 `npx lighthouse-build-compare --depth=10 --endpoints=http://www.example.com`
 
 <hr />
 
-To install:
+To install:<br />
 `yarn global add lighthouse-compare`
 
 or
@@ -37,6 +37,8 @@ If testing more than one endpoint, separate each endpoint by a comma:
 #### depth
 
 `-d` or `--depth`
+
+This is the number of Lighthouse audits you want to run per endpoint.
 
 <hr />
 
