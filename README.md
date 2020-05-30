@@ -3,7 +3,7 @@
 ### Installation
 
 Quickstart:
-`npx lighthouse-build-compare --depth=10 --endpoint1=http://localhost/dist`
+`npx lighthouse-build-compare --depth=10 --endpoints=http://www.example.com`
 
 <hr />
 
@@ -20,14 +20,28 @@ or
 
 `lighthouse-compare` takes two parameters:
 
+#### endpoints
+
 `-e` or `--endpoints`
+
+This is a comma-separated list of endpoints you want to run Lighthouse audits against. 
+
+If only testing one endpoint:
+
+`--endpoints=http://www.example.com`
+
+If testing more than one endpoint, separate each endpoint by a comma:
+
+`--endpoints=http://www.example.com,http://www.google.com`
+
+#### depth
 
 `-d` or `--depth`
 
 <hr />
 
-`lighthouse-compare --depth=10 --endpoint1=http://localhost/dist`
+`lighthouse-compare --depth=10 --endpoints=http://www.example.com`
 
 or
 
-`lighthouse-compare -d=10 -e=http://localhost/dist`
+`lighthouse-compare -d=10 -e=http://www.example.com`
