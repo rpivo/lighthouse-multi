@@ -46,7 +46,12 @@ const {
 const dir = './reports';
 if (!fs.existsSync(dir)) fs.mkdirSync(dir);
 
-const runLighthouse = async (url: string, opts: Options, config: {}) => {
+const hyphenateString = (str: string) =>
+  str.replace(/(\/|\s|:)/g,'-')
+     .replace(',','')
+     .replace(/-{2,}/g, '-');
+
+const runLighthouse = async (name: string, url: string, opts: Options, config: {}) => {
   const chrome = await chromeLauncher.launch({ chromeFlags: opts.chromeFlags });
 
   opts.port = chrome.port;

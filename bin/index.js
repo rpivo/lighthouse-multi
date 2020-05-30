@@ -23,13 +23,15 @@ const { endpoints, depth = 1, } = options;
 const dir = './reports';
 if (!fs.existsSync(dir))
     fs.mkdirSync(dir);
-const runLighthouse = async (url, opts, config) => {
+const hyphenateString = (str) => str.replace(/(\/|\s|:)/g, '-')
+    .replace(',', '')
+    .replace(/-{2,}/g, '-');
+const runLighthouse = async (name, url, opts, config) => {
     const chrome = await chromeLauncher.launch({ chromeFlags: opts.chromeFlags });
     opts.port = chrome.port;
     const results = await lighthouse(url, opts, config);
     await chrome.kill();
-    const filename = `${url}-${new Date().toLocaleString()}.json`
-        .replace(/(\/|\s|:)/g, '-').replace(',', '').replace(/-{2,}/g, '-');
+    const filename = hyphenateString(`${name}-${new Date().toLocaleString()}.json`);
     await fs.writeFileSync(`./reports/${filename}`, results.report);
 };
 const flags = {
@@ -45,14 +47,31 @@ const config = {
 };
 const runLighthousePerEndpoint = async (endpoints) => {
     const endpointArr = endpoints.split(',');
+    const nameList = {};
     for (let index = 0; index < depth; index++) {
         for (const endpoint of endpointArr) {
-            await runLighthouse(endpoint, flags, config);
+            const name = hyphenateString(endpoint);
+            nameList[name] = [];
+            await runLighthouse(name, endpoint, flags, config);
             console.log(`\n\x1b[32mPass ${index + 1} of endpoint finished\x1b[37m: ${endpoint}\n`);
         }
     }
     const files = await fs.readdirSync(dir);
-    for (const file of files)
-        console.log(file);
+    // for (let [key] of Object.entries(nameList)) {
+    //   for (const file of files) {
+    //     if (file.includes(key)) nameList[key].push(file);
+    //   }
+    // }
+    Object.keys(nameList).forEach(key => {
+        for (const file of files) {
+            if (file.includes(key))
+                nameList[key].push(file);
+        }
+    });
+    console.log(nameList);
+    // for (const file of files) {
+    //   console.log(file);
+    //   console.log(nameList);
+    // }
 };
 runLighthousePerEndpoint(endpoints);
