@@ -59,8 +59,7 @@ const runLighthouse = async (name: string, url: string, opts: Options, config: {
 
   await chrome.kill();
 
-  const filename = `${url}-${new Date().toLocaleString()}.json`
-    .replace(/(\/|\s|:)/g,'-').replace(',','').replace(/-{2,}/g, '-');
+  const filename = hyphenateString(`${name}-${new Date().toLocaleString()}.json`);
   await fs.writeFileSync(`./reports/${filename}`, results.report);
 };
 
