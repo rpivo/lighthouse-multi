@@ -2,6 +2,7 @@
 const chromeLauncher = require('chrome-launcher');
 const fs = require('fs');
 const lighthouse = require('lighthouse');
+const lighthouseKeys = require('./lighthouseKeys.json');
 const log = require('lighthouse-logger');
 const yargs = require('yargs');
 
@@ -22,9 +23,7 @@ type Results = {
 };
 
 const options = yargs
-  .usage(
-    'Usage: -d <depth> -e <endpoint1> -f <endpoint2> -g <endpoint3> -h <endpoint4> -i <endpoint5>'
-  )
+  .usage('Usage: -d <depth> -e <endpoints>')
   .option('e', {
     alias: 'endpoints',
     describe: 'comma-separated list of endpoints',
@@ -86,18 +85,61 @@ const runLighthousePerEndpoint = async (endpoints: string) => {
       nameList[name] = [];
       await runLighthouse(name, endpoint, flags, config);
 
-      console.log(`\n\x1b[32mPass ${index + 1} of endpoint finished\x1b[37m: ${endpoint}\n`);
+      console.log(`\n\x1b[37mPass ${index + 1} of \x1b[32m${endpoint} \x1b[37mfinished.\n`);
     }
   }
+  generateReport(nameList);
+};
+
+const generateReport = async (names: {}) => {
+
   const files = await fs.readdirSync(dir);
 
-  Object.keys(nameList).forEach(key => {
+  Object.keys(names).forEach(key => {
     for (const file of files) {
-      if (file.includes(key)) nameList[key].push(file);
+      if (file.includes(key)) names[key].push(file);
     }
   });
 
-  console.log(nameList);
+  console.log(names);
+  console.log(lighthouseKeys);
+
+  // for (const [key, value] of Object.entries(numericValueKeys)) {
+  //   let metricArr = [];
+
+
+  // }
+
+  // for (let [key, value] of Object.entries(numericValueKeys)) {
+  //   let metricArr = [];
+
+  //   Object.keys(names).forEach(group => {
+  //     for (const file of group) {
+  //       const contents = await fs.readFileSync(`./reports/${file}`);
+  //       metricArr.push(contents.audits[key].numericValue);
+  //     }
+  //   }
+  // }
+
+  // for (let [key, value] of Object.entries(numericValueKeys)) {
+  //   let arr = [];
+
+  //   for (item of contentArr) arr.push(item.audits[key].numericValue);
+
+  //   const average = getAverage(arr);
+  //   report[metricName][key] = average;
+  //   console.log(`\x1b[37m> ${value}: \x1b[32m${getAverage(arr)}`);
+  // }
+
+  // for (let [key, value] of Object.entries(diagnosticsKeys)) {
+  //   let arr = [];
+
+  //   for (item of contentArr) arr.push(item.audits.diagnostics.details.items[0][key]);
+
+  //   const average = getAverage(arr);
+  //   report[metricName][key] = average;
+  //   console.log(`\x1b[37m> ${value}: \x1b[32m${average}`);
+  // }
 };
 
 runLighthousePerEndpoint(endpoints);
