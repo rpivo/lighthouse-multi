@@ -78,16 +78,26 @@ const config = {
 
 const runLighthousePerEndpoint = async (endpoints: string) => {
   const endpointArr = endpoints.split(',');
+  const nameList = {};
 
   for (let index = 0; index < depth; index++) {
     for (const endpoint of endpointArr) {
-      await runLighthouse(endpoint, flags, config);
+      const name = hyphenateString(endpoint);
+      nameList[name] = [];
+      await runLighthouse(name, endpoint, flags, config);
 
       console.log(`\n\x1b[32mPass ${index + 1} of endpoint finished\x1b[37m: ${endpoint}\n`);
     }
   }
   const files = await fs.readdirSync(dir);
-  for (const file of files) console.log(file);
+
+  Object.keys(nameList).forEach(key => {
+    for (const file of files) {
+      if (file.includes(key)) nameList[key].push(file);
+    }
+  });
+
+  console.log(nameList);
 };
 
 runLighthousePerEndpoint(endpoints);
