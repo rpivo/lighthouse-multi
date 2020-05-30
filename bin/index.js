@@ -85,8 +85,13 @@ const generateReport = async (names) => {
             });
         }
         const report = {};
-        console.log(Object.values(diagnosticKeys));
-        console.log(Object.values(numericValueKeys));
+        console.log(`\n\x1b[33m${name}\x1b[37m\n`);
+        for (const [key, value] of Object.entries(numericValueKeys)) {
+            console.log(`> ${value}: \x1b[32m${getAverage(metrics[name][key])}\x1b[37m`);
+        }
+        for (const [key, value] of Object.entries(diagnosticKeys)) {
+            console.log(`> ${value}: \x1b[32m${getAverage(metrics[name][key])}\x1b[37m`);
+        }
     });
 };
 runLighthousePerEndpoint(endpoints);
