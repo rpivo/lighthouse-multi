@@ -3,22 +3,22 @@
 ### Installation
 
 Quickstart:<br />
-`npx lighthouse-build-compare --depth=10 --endpoints=http://www.example.com`
+`npx lighthouse-multi --depth=10 --endpoints=http://www.example.com`
 
 <hr />
 
 To install:<br />
-`yarn global add lighthouse-compare`
+`yarn global add lighthouse-multi`
 
 or
 
-`npm install -g lighthouse-compare`
+`npm install -g lighthouse-multi`
 
 <hr />
 
 ### Parameters
 
-`lighthouse-compare` takes two parameters:
+`lighthouse-multi` takes two parameters:
 
 #### endpoints
 
