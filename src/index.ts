@@ -145,7 +145,7 @@ const generateReport = async (names: {}) => {
 
   fs.writeFile(`./reports/${filename}`, JSON.stringify(report), (err: Error) => {
     if (err) throw err;
-    console.log(`\n\x1b[37mReport written to file: \x1b[36m${filename}`);
+    console.log(`\n\x1b[37mReport written to file: \x1b[36m${filename}\n`);
   }); 
 };
 
