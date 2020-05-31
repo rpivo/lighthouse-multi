@@ -39,11 +39,3 @@ If testing more than one endpoint, separate each endpoint by a comma:
 `-d` or `--depth`
 
 This is the number of Lighthouse audits you want to run per endpoint.
-
-<hr />
-
-`lighthouse-compare --depth=10 --endpoints=http://www.example.com`
-
-or
-
-`lighthouse-compare -d=10 -e=http://www.example.com`

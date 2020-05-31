@@ -24,15 +24,16 @@ const { endpoints, depth = 1, } = options;
 const dir = './reports';
 if (!fs.existsSync(dir))
     fs.mkdirSync(dir);
-const hyphenateString = (str) => str.replace(/(\/|\s|:)/g, '-')
+const hyphenateString = (str) => str.replace(/(\/|\s|:|\.)/g, '-')
     .replace(',', '')
-    .replace(/-{2,}/g, '-');
+    .replace(/-{2,}/g, '-')
+    .replace(/-$/, '');
 const runLighthouse = async (name, url, opts, config) => {
     const chrome = await chromeLauncher.launch({ chromeFlags: opts.chromeFlags });
     opts.port = chrome.port;
     const results = await lighthouse(url, opts, config);
     await chrome.kill();
-    const filename = hyphenateString(`${name}-${new Date().toLocaleString()}.json`);
+    const filename = `${hyphenateString(`${name}-${new Date().toLocaleString()}`)}.json`;
     await fs.writeFileSync(`./reports/${filename}`, results.report);
 };
 const flags = {
@@ -48,50 +49,66 @@ const config = {
 };
 const runLighthousePerEndpoint = async (endpoints) => {
     const endpointArr = endpoints.split(',');
-    const nameList = {};
+    const namePair = {};
     console.log('\nInitializing...\n');
     for (let index = 0; index < depth; index++) {
         for (const endpoint of endpointArr) {
             const name = hyphenateString(endpoint);
-            nameList[name] = [];
+            namePair[name] = endpoint;
             await runLighthouse(name, endpoint, flags, config);
             console.log(`\n\x1b[37mPass ${index + 1} of \x1b[32m${endpoint} \x1b[37mfinished.\n`);
         }
     }
-    generateReport(nameList);
+    generateReport(namePair);
 };
 const generateReport = async (names) => {
     const { diagnosticKeys, numericValueKeys } = lighthouseKeys;
-    const files = await fs.readdirSync(dir);
     const metrics = {};
+    const report = {};
+    const nameList = {};
+    const files = await fs.readdirSync(dir);
+    for (const name in names) {
+        nameList[name] = [];
+    }
     const getAverage = (arr) => arr.reduce((acc, curr) => acc + curr, 0) / arr.length;
-    Object.keys(names).forEach(async (name) => {
+    for (const name in nameList) {
         metrics[name] = {};
         for (const file of files) {
             if (file.includes(name))
-                names[name].push(file);
+                nameList[name].push(file);
         }
-        for (const fileName of names[name]) {
+        for (const fileName of nameList[name]) {
             const contents = await JSON.parse(fs.readFileSync(`./reports/${fileName}`, 'utf8'));
-            Object.keys(diagnosticKeys).forEach(metric => {
+            for (const metric in diagnosticKeys) {
                 if (!metrics[name][metric])
                     metrics[name][metric] = [];
                 metrics[name][metric].push(contents.audits.diagnostics.details.items[0][metric]);
-            });
-            Object.keys(numericValueKeys).forEach(metric => {
+            }
+            ;
+            for (const metric in numericValueKeys) {
                 if (!metrics[name][metric])
                     metrics[name][metric] = [];
                 metrics[name][metric].push(contents.audits[metric].numericValue);
-            });
+            }
+            ;
         }
-        const report = {};
-        console.log(`\n\x1b[33m${name}\x1b[37m\n`);
+        report[name] = {};
+        console.log(`\n\x1b[33m${names[name]}\x1b[37m\n`);
         for (const [key, value] of Object.entries(numericValueKeys)) {
+            report[name][key] = getAverage(metrics[name][key]);
             console.log(`> ${value}: \x1b[32m${getAverage(metrics[name][key])}\x1b[37m`);
         }
         for (const [key, value] of Object.entries(diagnosticKeys)) {
+            report[name][key] = getAverage(metrics[name][key]);
             console.log(`> ${value}: \x1b[32m${getAverage(metrics[name][key])}\x1b[37m`);
         }
+    }
+    ;
+    const filename = `${hyphenateString(`report-${new Date().toLocaleString()}`)}.json`;
+    fs.writeFile(`./reports/${filename}`, JSON.stringify(report), (err) => {
+        if (err)
+            throw err;
+        console.log(`\n\x1b[37mReport written to file: \x1b[36m${filename}`);
     });
 };
 runLighthousePerEndpoint(endpoints);
