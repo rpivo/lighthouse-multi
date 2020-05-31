@@ -1,7 +1,7 @@
 {
   "name": "lighthouse-compare",
-  "version": "0.10.0",
-  "description": "lighthouse wrapper that runs x number of audits against y number of endpoints",
+  "version": "0.11.0",
+  "description": "lighthouse wrapper that runs x number of audits against a list of endpoints",
   "keywords": [
     "build",
     "javascript",
