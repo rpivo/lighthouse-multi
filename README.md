@@ -1,3 +1,5 @@
+`lighthouse-multi` is a comparison tool that generates performance reports based on x number of lighthouse audits against a list of endpoints. When run, a JSON file is created that contains averaged metrics for each endpoint.
+
 `lighthouse-multi` does three things:
 1. With the `--depth` parameter (optional), you can run x number of Lighthouse audits against a remote or local URL. Each audit generates a JSON file that is saved in a `reports` folder at the location where `lighthouse-multi` was run.
 2. With the `--endpoints` parameter (required), you can run audits against a list of different remote or local URLs. `lighthouse-multi` will run audits for each of these endpoints and will run x number of audits for each endpoint based on the number passed into the `--depth` parameter (if `--depth` is not provided, then only 1 audit is run per endpoint).
