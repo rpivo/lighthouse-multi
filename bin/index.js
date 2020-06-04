@@ -108,7 +108,7 @@ const generateReport = async (names) => {
     fs.writeFile(`./reports/${filename}`, JSON.stringify(report), (err) => {
         if (err)
             throw err;
-        console.log(`\n\x1b[37mReport written to file: \x1b[36m${filename}\n`);
+        console.log(`\n\x1b[37mReport written in ./reports as file: \x1b[36m${filename}\n`);
     });
 };
 runLighthousePerEndpoint(endpoints);
