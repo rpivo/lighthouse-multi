@@ -1,6 +1,6 @@
 {
   "name": "lighthouse-multi",
-  "version": "0.13.4",
+  "version": "0.13.5",
   "description": "lighthouse wrapper that runs x number of audits against a list of endpoints",
   "keywords": [
     "build",
@@ -11,7 +11,7 @@
   ],
   "main": "bin/index.js",
   "repository": "git@github.com:rpivo/lighthouse-multi.git",
-  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
+  "publishConfig": { "registry": "https://npm.pkg.github.com/@rpivo" },
   "author": "Ryan Pivovar <ryanpivovar@gmail.com>",
   "license": "MIT",
   "bin": {
