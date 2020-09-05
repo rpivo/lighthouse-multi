@@ -1,6 +1,6 @@
 {
   "name": "lighthouse-multi",
-  "version": "0.13.5",
+  "version": "0.14.0",
   "description": "lighthouse wrapper that runs x number of audits against a list of endpoints",
   "keywords": [
     "build",
@@ -11,18 +11,20 @@
   ],
   "main": "bin/index.js",
   "repository": "git@github.com:rpivo/lighthouse-multi.git",
-  "publishConfig": { "registry": "https://npm.pkg.github.com/@rpivo" },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@rpivo"
+  },
   "author": "Ryan Pivovar <ryanpivovar@gmail.com>",
   "license": "MIT",
   "bin": {
     "lighthouse-multi": "./bin/index.js"
   },
   "dependencies": {
-    "@types/node": "^14.0.13",
+    "@types/node": "^14.6.4",
     "@types/yargs": "^15.0.5",
-    "chrome-launcher": "^0.13.3",
-    "lighthouse": "^6.0.0",
+    "chrome-launcher": "^0.13.4",
+    "lighthouse": "^6.3.0",
     "lighthouse-logger": "^1.2.0",
-    "yargs": "^15.3.1"
+    "yargs": "^15.4.1"
   }
 }
