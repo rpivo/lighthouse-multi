@@ -1,4 +1,5 @@
 Quickstart:<br />
+
 `npx lighthouse-multi --depth=10 --endpoints=http://www.example.com --output=reports`
 
 <hr />
@@ -15,6 +16,7 @@ lighthouse-multi does three things:
 ### Installation
 
 To install:<br />
+
 `npm install -g lighthouse-multi`
 
 or
