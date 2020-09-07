@@ -10,22 +10,22 @@ lighthouse-multi does three things:
 ### Installation
 
 Quickstart:<br />
-`npx lighthouse-multi --depth=10 --endpoints=http://www.example.com`
+`npx lighthouse-multi --depth=10 --endpoints=http://www.example.com --output=reports`
 
 <hr />
 
 To install:<br />
-`yarn global add lighthouse-multi`
+`npm install -g lighthouse-multi`
 
 or
 
-`npm install -g lighthouse-multi`
+`yarn global add lighthouse-multi`
 
 <hr />
 
 ### Parameters
 
-`lighthouse-multi` takes two parameters:
+`lighthouse-multi` takes three parameters:
 
 #### endpoints
 
@@ -46,3 +46,9 @@ If testing more than one endpoint, separate each endpoint by a comma:
 `-d` or `--depth`
 
 This is the number of Lighthouse audits you want to run per endpoint.
+
+#### output
+
+`-o` or `--output`
+
+This is the destination folder for the generated report.

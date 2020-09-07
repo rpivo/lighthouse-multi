@@ -35,15 +35,20 @@ const options = yargs
     describe: 'number of lighthouse audits per endpoint',
     type: 'number',
   })
+  .option('o', {
+    alias: 'output',
+    describe: 'destination folder for the generated report',
+    type: 'string',
+  })
   .argv;
 
 const {
   endpoints,
   depth = 1,
+  output = 'reports',
 } = options;
 
-const dir = './reports';
-if (!fs.existsSync(dir)) fs.mkdirSync(dir);
+if (!fs.existsSync(`./${output}`)) fs.mkdirSync(`./${output}`);
 
 const hyphenateString = (str: string) =>
   str.replace(/(\/|\s|:|\.)/g,'-')
@@ -60,7 +65,7 @@ const runLighthouse = async (name: string, url: string, opts: Options, config: {
   await chrome.kill();
 
   const filename = `${hyphenateString(`${name}-${new Date().toLocaleString()}`)}.json`;
-  await fs.writeFileSync(`./reports/${filename}`, results.report);
+  await fs.writeFileSync(`./${output}/${filename}`, results.report);
 };
 
 const flags = {
@@ -101,7 +106,7 @@ const generateReport = async (names: {}) => {
   const report = {};
   const nameList = {};
 
-  const files = await fs.readdirSync(dir);
+  const files = await fs.readdirSync(`./${output}`);
 
   for (const name in names ) {
     nameList[name] = [];
@@ -116,7 +121,7 @@ const generateReport = async (names: {}) => {
     }
 
     for (const fileName of nameList[name]) {
-      const contents = await JSON.parse(fs.readFileSync(`./reports/${fileName}`, 'utf8'));
+      const contents = await JSON.parse(fs.readFileSync(`./${output}/${fileName}`, 'utf8'));
 
       for (const metric in diagnosticKeys) {
         if (!metrics[name][metric]) metrics[name][metric] = [];
@@ -143,9 +148,9 @@ const generateReport = async (names: {}) => {
 
   const filename = `${hyphenateString(`report-${new Date().toLocaleString()}`)}.json`;
 
-  fs.writeFile(`./reports/${filename}`, JSON.stringify(report), (err: Error) => {
+  fs.writeFile(`./${output}/${filename}`, JSON.stringify(report), (err: Error) => {
     if (err) throw err;
-    console.log(`\n\x1b[37mReport written in ./reports as file: \x1b[36m${filename}\n`);
+    console.log(`\n\x1b[37mReport written in ./${output} as file: \x1b[36m${filename}\n`);
   }); 
 };
 

@@ -1,6 +1,6 @@
 {
   "name": "lighthouse-multi",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "description": "lighthouse wrapper that runs x number of audits against a list of endpoints",
   "keywords": [
     "build",
@@ -10,6 +10,7 @@
     "typescript"
   ],
   "main": "bin/index.js",
+  "preferGlobal": true,
   "repository": "git@github.com:rpivo/lighthouse-multi.git",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/@rpivo"
