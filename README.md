@@ -1,3 +1,8 @@
+Quickstart:<br />
+`npx lighthouse-multi --depth=10 --endpoints=http://www.example.com --output=reports`
+
+<hr />
+
 **lighthouse-multi** is a comparison tool that generates performance reports based on x number of lighthouse audits against a list of endpoints. When run, a JSON file is created that contains averaged metrics for each endpoint.
 
 lighthouse-multi does three things:
@@ -8,11 +13,6 @@ lighthouse-multi does three things:
 ## Usage
 
 ### Installation
-
-Quickstart:<br />
-`npx lighthouse-multi --depth=10 --endpoints=http://www.example.com --output=reports`
-
-<hr />
 
 To install:<br />
 `npm install -g lighthouse-multi`
