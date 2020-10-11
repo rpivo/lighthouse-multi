@@ -1,6 +1,6 @@
 {
   "name": "lighthouse-multi",
-  "version": "0.15.1",
+  "version": "0.16.0",
   "description": "lighthouse wrapper that runs x number of audits against a list of endpoints",
   "keywords": [
     "build",
@@ -21,11 +21,11 @@
     "lighthouse-multi": "./bin/index.js"
   },
   "dependencies": {
-    "@types/node": "^14.6.4",
-    "@types/yargs": "^15.0.5",
+    "@types/node": "^14.11.8",
+    "@types/yargs": "^15.0.8",
     "chrome-launcher": "^0.13.4",
-    "lighthouse": "^6.3.0",
+    "lighthouse": "^6.4.1",
     "lighthouse-logger": "^1.2.0",
-    "yargs": "^15.4.1"
+    "yargs": "^16.0.3"
   }
 }
