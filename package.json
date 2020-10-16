@@ -18,7 +18,9 @@
     "lighthouse-multi": "./bin/index.js"
   },
   "scripts": {
-    "build": "rm -rf bin && mkdir bin && tsc && cp src/lighthouseKeys.json bin/lighthouseKeys.json"
+    "build": "rm -rf bin && mkdir bin && tsc && cp src/lighthouseKeys.json bin/lighthouseKeys.json",
+    "diff": "bash ./sh/diff.sh",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@types/node": "^14.11.8",
