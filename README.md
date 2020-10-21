@@ -27,30 +27,11 @@ or
 
 ### Parameters
 
-`lighthouse-multi` takes three parameters:
+Most of the parameters that `lighthouse-multi` can take are wrapped arguments that are passed straight to Lighthouse. For more comprehensive usage, try the [Lighthouse package](https://github.com/GoogleChrome/lighthouse). [lighthouse-ci](https://github.com/GoogleChrome/lighthouse-ci) can also run multiple audits on multiple urls and can calculate the median values of these audits and is more comprehensive for pipeline use, but may require more work to get reporting on all performance metrics.
 
-#### endpoints
-
-`-e` or `--endpoints`
-
-This is a comma-separated list of endpoints you want to run Lighthouse audits against. 
-
-If only testing one endpoint:
-
-`--endpoints=http://www.example.com`
-
-If testing more than one endpoint, separate each endpoint by a comma:
-
-`--endpoints=http://www.example.com,http://www.google.com`
-
-#### depth
-
-`-d` or `--depth`
-
-This is the number of Lighthouse audits you want to run per endpoint.
-
-#### output
-
-`-o` or `--output`
-
-This is the destination folder for the generated report.
+| option              | type    | required | default | description                                                                                                                                                                                                                                                                            |
+|---------------------|---------|----------|---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| endpoints           | string  | yes      |         | This is a comma-separated list of endpoints you want to run Lighthouse audits against. If only testing one endpoint: --endpoints=http://www.example.com If testing more than one endpoint, separate each endpoint by a comma: --endpoints=http://www.example.com,http://www.google.com |
+| depth               | number  | no       | 1       | This is the number of Lighthouse audits you want to run per endpoint.                                                                                                                                                                                                                  |
+| disableStorageReset | boolean | no       | false   | For urls that require credentials, this can allow credentials to persist on each audit. No value is needed for this flag: `--disableStorageReset`                                                                                                                                      |
+| output              | string  | no       | reports | This is the destination folder for the generated report.                                                                                                                                                                                                                               |
