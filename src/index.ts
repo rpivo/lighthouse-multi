@@ -59,7 +59,7 @@ const hyphenateString = (str: string) =>
      .replace(/-$/, '');
 
 const runLighthouse = async (name: string, url: string, opts: Options, config: {}) => {
-  const chrome = await chromeLauncher.launch({ chromeFlags: opts.chromeFlags });
+  const chrome = await chromeLauncher.launch({ chromeFlags: ['--ignore-certificate-errors'] });
 
   opts.port = chrome.port;
   const results = await lighthouse(url, opts, config);
