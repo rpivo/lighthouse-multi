@@ -23,28 +23,30 @@ type Results = {
 };
 
 const options = yargs
-  .usage('Usage: -d <depth> -e <endpoints>')
-  .option('e', {
-    alias: 'endpoints',
+  .usage('Usage: --depth <depth> --disableStorageReset <disableStorageReset> --endpoints <endpoints> --output <output>')
+  .option('depth', {
+    describe: 'number of lighthouse audits per endpoint',
+    type: 'number',
+  })
+  .option('disableStorageReset', {
+    describe: 'allow stored browser credentials to persist',
+    type: 'boolean',
+  })
+  .option('endpoints', {
     describe: 'comma-separated list of endpoints',
     type: 'string',
     demandOption: true,
   })
-  .option('d', {
-    alias: 'depth',
-    describe: 'number of lighthouse audits per endpoint',
-    type: 'number',
-  })
-  .option('o', {
-    alias: 'output',
+  .option('output', {
     describe: 'destination folder for the generated report',
     type: 'string',
   })
   .argv;
 
 const {
-  endpoints,
   depth = 1,
+  disableStorageReset = false,
+  endpoints,
   output = 'reports',
 } = options;
 
@@ -76,6 +78,7 @@ log.setLevel(flags.logLevel);
 const config = {
   extends: 'lighthouse:default',
   settings: {
+    disableStorageReset,
     emulatedFormFactor: 'desktop',
     onlyCategories: ['performance'],
   },
