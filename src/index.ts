@@ -85,10 +85,7 @@ let headers = '';
 if (extraHeaders) {
   headers = extraHeaders.split(',').map((item: string) => {
     const [name, value] = item.split('=');
-    return {
-      name,
-      value: value.replace(/["']/g, ''),
-    };
+    return { [name]: value.replace(/["']/g, '') };
   });
 }
 
