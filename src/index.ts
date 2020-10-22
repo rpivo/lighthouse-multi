@@ -23,7 +23,7 @@ type Results = {
 };
 
 const options = yargs
-  .usage('Usage: --depth <depth> --disableStorageReset <disableStorageReset> --endpoints <endpoints> --output <output>')
+  .usage('Usage: --depth <depth> --disableStorageReset <disableStorageReset> --endpoints <endpoints> --extraHeaders <extraHeaders> --output <output>')
   .option('depth', {
     describe: 'number of lighthouse audits per endpoint',
     type: 'number',
@@ -37,6 +37,10 @@ const options = yargs
     type: 'string',
     demandOption: true,
   })
+  .option('extraHeaders', {
+    describe: 'comma-separated list of key-value headers',
+    type: 'string',
+  })
   .option('output', {
     describe: 'destination folder for the generated report',
     type: 'string',
@@ -47,6 +51,7 @@ const {
   depth = 1,
   disableStorageReset = false,
   endpoints,
+  extraHeaders = '',
   output = 'reports',
 } = options;
 
@@ -75,11 +80,24 @@ const flags = {
 };
 log.setLevel(flags.logLevel);
 
+let headers = '';
+
+if (extraHeaders) {
+  headers = extraHeaders.split(',').map((item: string) => {
+    const [name, value] = item.split('=');
+    return {
+      name,
+      value: value.replaceAll('"', '').replaceAll('\'', ''),
+    };
+  });
+}
+
 const config = {
   extends: 'lighthouse:default',
   settings: {
     disableStorageReset,
     emulatedFormFactor: 'desktop',
+    extraHeaders: headers,
     onlyCategories: ['performance'],
   },
 };

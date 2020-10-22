@@ -1,6 +1,6 @@
 {
   "name": "lighthouse-multi",
-  "version": "0.17.1",
+  "version": "0.18.0",
   "description": "lighthouse wrapper that runs x number of audits against a list of endpoints",
   "keywords": [
     "build",
