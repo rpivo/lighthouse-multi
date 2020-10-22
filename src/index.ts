@@ -87,7 +87,7 @@ if (extraHeaders) {
     const [name, value] = item.split('=');
     return {
       name,
-      value: value.replaceAll('"', '').replaceAll('\'', ''),
+      value: value.replace(/["']/g, ''),
     };
   });
 }
