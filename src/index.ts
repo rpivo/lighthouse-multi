@@ -93,9 +93,9 @@ const config = {
   extends: 'lighthouse:default',
   settings: {
     disableStorageReset,
-    formFactor: 'desktop',
     extraHeaders: headers,
     onlyCategories: ['performance'],
+    preset: 'desktop',
   },
 };
 
