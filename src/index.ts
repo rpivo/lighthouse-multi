@@ -93,7 +93,7 @@ const config = {
   extends: 'lighthouse:default',
   settings: {
     disableStorageReset,
-    emulatedFormFactor: 'desktop',
+    formFactor: 'desktop',
     extraHeaders: headers,
     onlyCategories: ['performance'],
   },
