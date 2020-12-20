@@ -58,10 +58,10 @@ const {
 if (!fs.existsSync(`./${output}`)) fs.mkdirSync(`./${output}`);
 
 const hyphenateString = (str: string) =>
-  str.replace(/(\/|\s|:|\.)/g,'-')
-     .replace(',','')
-     .replace(/-{2,}/g, '-')
-     .replace(/-$/, '');
+  str.replace(/(\/|\s|:|\.)/g, '-')
+    .replace(',', '')
+    .replace(/-{2,}/g, '-')
+    .replace(/-$/, '');
 
 const runLighthouse = async (name: string, url: string, opts: Options, config: {}) => {
   const chrome = await chromeLauncher.launch({ chromeFlags: ['--ignore-certificate-errors'] });
@@ -93,9 +93,25 @@ const config = {
   extends: 'lighthouse:default',
   settings: {
     disableStorageReset,
+    emulatedUserAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4143.7 Safari/537.36 Chrome-Lighthouse',
     extraHeaders: headers,
+    formFactor: 'desktop',
     onlyCategories: ['performance'],
-    preset: 'desktop',
+    screenEmulation: {
+      mobile: false,
+      width: 1350,
+      height: 940,
+      deviceScaleFactor: 1,
+      disabled: false,
+    },
+    throttling: {
+      rttMs: 40,
+      throughputKbps: 10 * 1024,
+      cpuSlowdownMultiplier: 1,
+      requestLatencyMs: 0, // 0 means unset
+      downloadThroughputKbps: 0,
+      uploadThroughputKbps: 0,
+    }
   },
 };
 
@@ -126,7 +142,7 @@ const generateReport = async (names: {}) => {
 
   const files = await fs.readdirSync(`./${output}`);
 
-  for (const name in names ) {
+  for (const name in names) {
     nameList[name] = [];
   }
 
@@ -169,7 +185,7 @@ const generateReport = async (names: {}) => {
   fs.writeFile(`./${output}/${filename}`, JSON.stringify(report), (err: Error) => {
     if (err) throw err;
     console.log(`\n\x1b[37mReport written in ./${output} as file: \x1b[36m${filename}\n`);
-  }); 
+  });
 };
 
 runLighthousePerEndpoint(endpoints);
