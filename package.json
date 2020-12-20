@@ -1,6 +1,6 @@
 {
   "name": "lighthouse-multi",
-  "version": "0.18.3",
+  "version": "0.18.4",
   "description": "lighthouse wrapper that runs x number of audits against a list of endpoints",
   "keywords": [
     "build",
@@ -24,7 +24,7 @@
     "update": "npx npm-check-updates -u"
   },
   "dependencies": {
-    "@types/node": "^14.11.8",
+    "@types/node": "^14.14.14",
     "@types/yargs": "^15.0.12",
     "chrome-launcher": "^0.13.4",
     "lighthouse": "^6.4.1",
