@@ -1,6 +1,6 @@
 {
   "name": "lighthouse-multi",
-  "version": "0.18.5",
+  "version": "0.18.6",
   "description": "lighthouse wrapper that runs x number of audits against a list of endpoints",
   "keywords": [
     "build",
@@ -32,6 +32,6 @@
     "yargs": "^16.2.0"
   },
   "devDependencies": {
-    "typescript": "^4.0.3"
+    "typescript": "^4.1.3"
   }
 }
