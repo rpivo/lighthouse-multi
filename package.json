@@ -27,7 +27,7 @@
     "@types/node": "^14.14.25",
     "@types/yargs": "^16.0.0",
     "chrome-launcher": "^0.13.4",
-    "lighthouse": "^7.0.1",
+    "lighthouse": "^10.0.0",
     "lighthouse-logger": "^1.2.0",
     "yargs": "^16.2.0"
   },
